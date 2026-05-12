@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Mapty // Map your workouts</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <main class="app">
+      <section class="workout-list">
+        <div class="logo">
+          <img class="logo-image" src="logo.png" alt="app logo icon" />
+          <p class="app-name">
+            MAPTY <span class="logo-desc inactive">Map your workouts</span>
+          </p>
+        </div>
+        <form class="new-workout">
+          <div class="form-heading">Log a workout</div>
+          <div class="workout-type">
+            <div class="running workout-select">
+              <img
+                class="running-img workout-img selected"
+                src="running.png"
+                alt="running man icon"
+              />
+              Running
+            </div>
+            <div class="cycling workout-select inactive">
+              <img
+                class="cycling-img workout-img"
+                src="cycling.png"
+                alt="cycling man icon"
+              />
+              Cycling
+            </div>
+          </div>
+          <div class="workout-value">
+            <input
+              class="location inactive"
+              type="text"
+              placeholder="📍 Click on the map to get location"
+              readonly
+            />
+            <input
+              class="distance inactive"
+              type="number"
+              placeholder="🛣️ Distance (km)"
+            />
+            <input
+              class="duration inactive"
+              type="number"
+              placeholder="🕔 Duration (min)"
+            />
+            <input
+              class="pace inactive"
+              type="number"
+              placeholder="🚀 Pace (min/km)"
+            />
+            <input
+              class="cadence inactive"
+              type="number"
+              placeholder="🔄️ Cadence (spm)"
+            />
+            <input
+              class="elevation inactive hidden"
+              type="number"
+              placeholder="⛰️ Elevation (m)"
+            />
+            <button class="add-workout" type="submit">Add workout</button>
+          </div>
+        </form>
+        <section class="old-workouts">
+          <div class="old-workouts__heading">Your workouts</div>
+          <ul class="workout-records">
+            <li class="record hidden">
+              <p class="no-workout-msg">
+                No workouts yet. <br />
+                <span>Go outside and start tracking!</span>
+              </p>
+            </li>
+            <li class="record">
+              <img
+                class="running-img workout-img running-record"
+                src="running.png"
+                alt="running man icon"
+              />
+              <div class="workout-summary">
+                <p>🛣️ 4.2 km</p>
+                <p>🕔 28 min</p>
+                <p>🚀 6:40 min/km</p>
+                <p>🔄️ 172 spm</p>
+                <p class="workout-date inactive">May 25, 2025, 8:15 AM</p>
+              </div>
+              <div class="delete">❌</div>
+            </li>
+          </ul>
+        </section>
+      </section>
+      <section class="map"></section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>

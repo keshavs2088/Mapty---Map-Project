@@ -1,0 +1,181 @@
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+body {
+  height: 100vh;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: aliceblue;
+}
+
+.app {
+  padding: 1rem;
+  height: 100%;
+  width: 100%;
+  display: flex;
+}
+
+.workout-list {
+  height: 100%;
+  width: 35%;
+  min-width: 30rem;
+  background: #033f45;
+  padding: 0 2rem;
+}
+
+.map {
+  height: 100%;
+  width: 65%;
+  background: #181a1a75;
+}
+
+.logo {
+  height: 15%;
+  font-size: 2rem;
+  border-bottom: 1px solid aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-right: 3rem;
+}
+
+.app-name {
+  display: flex;
+  flex-direction: column;
+  font-weight: bold;
+}
+.logo-desc {
+  font-size: 1rem;
+  font-weight: lighter;
+}
+
+.logo-image {
+  height: 4rem;
+  width: 6rem;
+}
+
+.new-workout {
+  border-bottom: 1px solid aliceblue;
+  padding-bottom: 1.5rem;
+}
+
+.form-heading,
+.old-workouts__heading {
+  font-weight: bold;
+  color: #62e0b3;
+  text-align: center;
+  padding: 0.5rem 0;
+  margin-top: 0.5rem;
+}
+
+.workout-type {
+  display: flex;
+  justify-content: center;
+  font-size: 0.8rem;
+}
+
+.workout-select {
+  display: flex;
+  align-items: center;
+  padding-right: 1rem;
+}
+
+.workout-img {
+  height: 2.5rem;
+  width: 2.5rem;
+  border-radius: 50%;
+  margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
+.workout-value {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  column-gap: 20px;
+}
+
+.location {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  margin-top: 0.5rem;
+}
+
+.add-workout {
+  grid-column-start: 1;
+  grid-column-end: 3;
+  height: 2.5rem;
+  border-radius: 10px;
+  background-color: #42d392;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: aliceblue;
+  font-weight: bold;
+}
+
+input {
+  background: #033f45;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: aliceblue;
+  text-align: center;
+  height: 2.5rem;
+  margin-bottom: 1rem;
+  border-radius: 10px;
+  border: 1px solid aliceblue;
+}
+
+input::placeholder {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  color: aliceblue;
+  text-align: center;
+}
+
+.workout-records {
+  display: flex;
+  flex-direction: column;
+}
+
+.no-workout-msg {
+  font-weight: bold;
+  padding-top: 0.5rem;
+}
+
+.record {
+  min-height: 5.5rem;
+  font-size: 0.8rem;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  border: 1px solid aliceblue;
+  padding: 1rem;
+  margin: 0.5rem 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.workout-summary {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
+.delete {
+  align-self: flex-end;
+}
+
+.cycling-record {
+  border: 4px solid #ff4f8b;
+}
+
+.running-record {
+  border: 4px solid #62e0b3;
+}
+
+.inactive {
+  opacity: 0.5;
+}
+
+.selected {
+  border: 1px solid #62e0b3;
+}
+
+.hidden {
+  display: none !important;
+}
