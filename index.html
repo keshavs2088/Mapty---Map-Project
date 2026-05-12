@@ -4,8 +4,21 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <title>Mapty // Map your workouts</title>
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+      crossorigin=""
+    ></script>
+
     <link rel="stylesheet" href="styles.css" />
+
+    <title>Mapty // Map your workouts</title>
   </head>
   <body>
     <main class="app">
@@ -19,15 +32,15 @@
         <form class="new-workout">
           <div class="form-heading">Log a workout</div>
           <div class="workout-type">
-            <div class="running workout-select">
+            <div class="running workout-select active">
               <img
-                class="running-img workout-img selected"
+                class="running-img workout-img"
                 src="running.png"
                 alt="running man icon"
               />
               Running
             </div>
-            <div class="cycling workout-select inactive">
+            <div class="cycling workout-select">
               <img
                 class="cycling-img workout-img"
                 src="cycling.png"
@@ -36,40 +49,36 @@
               Cycling
             </div>
           </div>
-          <div class="workout-value">
+          <div class="workout-value inactive">
             <input
-              class="location inactive"
+              class="location"
               type="text"
               placeholder="📍 Click on the map to get location"
               readonly
             />
             <input
-              class="distance inactive"
+              class="distance"
               type="number"
               placeholder="🛣️ Distance (km)"
             />
             <input
-              class="duration inactive"
+              class="duration"
               type="number"
               placeholder="🕔 Duration (min)"
             />
+            <input class="pace" type="number" placeholder="🚀 Pace (min/km)" />
             <input
-              class="pace inactive"
-              type="number"
-              placeholder="🚀 Pace (min/km)"
-            />
-            <input
-              class="cadence inactive"
+              class="cadence"
               type="number"
               placeholder="🔄️ Cadence (spm)"
             />
             <input
-              class="elevation inactive hidden"
+              class="elevation hidden"
               type="number"
               placeholder="⛰️ Elevation (m)"
             />
-            <button class="add-workout" type="submit">Add workout</button>
           </div>
+          <button class="add-workout" type="submit">Add workout</button>
         </form>
         <section class="old-workouts">
           <div class="old-workouts__heading">Your workouts</div>
@@ -93,7 +102,7 @@
                 <p>🔄️ 172 spm</p>
                 <p class="workout-date inactive">May 25, 2025, 8:15 AM</p>
               </div>
-              <div class="delete">❌</div>
+              <div class="delete-record">❌</div>
             </li>
           </ul>
         </section>
