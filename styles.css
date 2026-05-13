@@ -19,6 +19,7 @@ body {
 
 .workout-list {
   height: 100%;
+  overflow-y: auto;
   width: 35%;
   min-width: 30rem;
   background: #033f45;
@@ -159,18 +160,22 @@ input::placeholder {
 
 .delete-record {
   align-self: flex-end;
+  /* background-color: #033f45; */
+  background-color: transparent;
+  border: 0;
 }
 
-.cycling-record {
+.cycling-record_highlight {
   border: 4px solid #ff4f8b;
 }
 
-.running-record {
+.running-record_highlight {
   border: 4px solid #62e0b3;
 }
 
 .inactive {
   opacity: 0.5;
+  pointer-events: none;
 }
 
 .active {
@@ -187,4 +192,27 @@ input::placeholder {
 
 .hidden {
   display: none !important;
+}
+
+.leaflet-popup-content-wrapper {
+  background-color: rgb(38, 37, 37);
+  color: aliceblue;
+  border-radius: 10px;
+}
+
+.running-popup .leaflet-popup-content-wrapper {
+  border-left: 15px solid #62e0b3;
+}
+
+.cycling-popup .leaflet-popup-content-wrapper {
+  border-left: 15px solid #ff4f8b;
+}
+
+.leaflet-popup-content {
+  font-size: 0.9rem;
+  font-weight: lighter;
+}
+
+.leaflet-popup-tip {
+  background-color: rgb(38, 37, 37);
 }

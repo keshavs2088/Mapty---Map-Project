@@ -66,11 +66,17 @@
               type="number"
               placeholder="🕔 Duration (min)"
             />
-            <input class="pace" type="number" placeholder="🚀 Pace (min/km)" />
+            <input
+              class="pace"
+              type="number"
+              placeholder="🚀 Pace (min/km)"
+              readonly
+            />
             <input
               class="cadence"
               type="number"
               placeholder="🔄️ Cadence (spm)"
+              readonly
             />
             <input
               class="elevation hidden"
@@ -78,20 +84,32 @@
               placeholder="⛰️ Elevation (m)"
             />
           </div>
-          <button class="add-workout" type="submit">Add workout</button>
+          <button class="add-workout inactive" type="submit">
+            Add workout
+          </button>
         </form>
         <section class="old-workouts">
           <div class="old-workouts__heading">Your workouts</div>
           <ul class="workout-records">
-            <li class="record hidden">
+            <li class="record no-record">
               <p class="no-workout-msg">
                 No workouts yet. <br />
                 <span>Go outside and start tracking!</span>
               </p>
             </li>
+          </ul>
+        </section>
+      </section>
+      <section class="map"></section>
+    </main>
+    <script src="script.js"></script>
+  </body>
+</html>
+
+<!---
             <li class="record">
               <img
-                class="running-img workout-img running-record"
+                class="workout-img running-record_highlight"
                 src="running.png"
                 alt="running man icon"
               />
@@ -102,13 +120,6 @@
                 <p>🔄️ 172 spm</p>
                 <p class="workout-date inactive">May 25, 2025, 8:15 AM</p>
               </div>
-              <div class="delete-record">❌</div>
+              <button class="delete-record">❌</button>
             </li>
-          </ul>
-        </section>
-      </section>
-      <section class="map"></section>
-    </main>
-    <script src="script.js"></script>
-  </body>
-</html>
+        -->
