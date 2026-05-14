@@ -14,17 +14,16 @@ const containerWorkoutValueElm = document.querySelector(".workout-value");
 const newWorkoutElm = document.querySelector(".new-workout");
 const listRecordsElm = document.querySelector(".workout-records");
 const noRecordElm = document.querySelector(".no-record");
-const deleteRecordElm = document.querySelector(".delete-record");
 
 let workoutsArray = [];
 let newWorkout;
-let lattitude;
-let longitude;
 let mapMarker;
+let map;
 
 class Workout {
   #location;
   #date;
+  #locationObject;
   constructor(distance, duration, pace) {
     this.distance = distance;
     this.duration = duration;
@@ -48,12 +47,19 @@ class Workout {
     this.#date = formattedDate;
   }
 
+  _setlocationObject(locationObject) {
+    this.#locationObject = locationObject;
+  }
+
   getDate() {
     return this.#date;
   }
 
   getlocation() {
     return this.#location;
+  }
+  getlocationObject() {
+    return this.#locationObject;
   }
 }
 
@@ -79,7 +85,6 @@ const MarkerIcon = L.Icon.extend({
     iconAnchor: [40, 70],
     shadowAnchor: [4, 62],
     popupAnchor: [0, -40],
-    // offset: [0, 10],
   },
 });
 
@@ -95,38 +100,40 @@ const toggleWorkout = function (type) {
 };
 
 const newWorkoutObjectCreation = function (workoutType) {
-  if (workoutType === "running") {
+  if (workoutType === "running")
     newWorkout = new Running(
       distanceElm.value,
       durationElm.value,
       paceElm.value,
       cadenceElm.value,
     );
-  }
 
-  if (workoutType === "cycling") {
+  if (workoutType === "cycling")
     newWorkout = new Cycling(
       distanceElm.value,
       durationElm.value,
       paceElm.value,
       elevationElm.value,
     );
-  }
 
   newWorkout._setlocation(locationElm.value);
   newWorkout._setdate(new Date());
+  newWorkout._setlocationObject(mapMarker);
 
   const cadence = `🔄️ ${newWorkout.cadence} (spm)`;
-  const elevation = `⛰️ ${newWorkout.elevation} (rpm)`;
-  mapMarker
-    .bindPopup(
-      `${newWorkout.getDate()} <br> 🛣️ ${newWorkout.distance} (km) 🕔 ${newWorkout.duration} (min) <br> 🚀 ${newWorkout.pace} (min/km) ${workoutType === "running" ? cadence : elevation}`,
-      { className: `${workoutType}-popup` },
-    )
-    .openPopup();
+  const elevation = `⛰️ ${newWorkout.elevation} (m)`;
 
   if (checkValidation()) {
-    workoutsArray.push();
+    //add popup
+    mapMarker
+      .bindPopup(
+        `${newWorkout.getDate()} <br> 🛣️ ${newWorkout.distance} (km) 🕔 ${newWorkout.duration} (min) <br> 🚀 ${newWorkout.pace} (min/km) ${workoutType === "running" ? cadence : elevation}`,
+        { className: `${workoutType}-popup` },
+      )
+      .openPopup();
+
+    //add a new record on UI and create a new value in array
+    workoutsArray.push(newWorkout);
     addRecord(workoutType);
   }
 
@@ -158,8 +165,9 @@ const checkValidation = function () {
 
 const addRecord = function (workoutType) {
   const cadence = `🔄️ ${newWorkout.cadence} (spm)`;
-  const elevation = `⛰️ ${newWorkout.elevation} (rpm)`;
+  const elevation = `⛰️ ${newWorkout.elevation} (m)`;
   let html = `<li class="record">
+              <div class="workout-location hidden">${newWorkout.getlocation()}</div>
               <img
                 class="workout-img ${workoutType}-record_highlight"
                 src="${workoutType}.png"
@@ -179,12 +187,43 @@ const addRecord = function (workoutType) {
   noRecordElm.classList.add("hidden");
 };
 
+//move map to the marker
+const moveMaptoMarker = function (event) {
+  const workoutCoords = event.target
+    .closest(".record")
+    .firstElementChild.textContent.split(",");
+  console.log(workoutCoords);
+  map.setView([workoutCoords[0], workoutCoords[1]], 14, {
+    animate: true,
+    pan: {
+      duration: 1,
+    },
+  });
+};
+
+//Delete workout records and marker
+const deleteRecord = function (event) {
+  if (event.target.classList.contains("delete-record")) {
+    const deleteLocation =
+      event.target.closest(".record").firstElementChild.textContent;
+    const position = workoutsArray.findIndex(
+      (workout) => workout.getlocation() === deleteLocation,
+    );
+    workoutsArray[position].getlocationObject().remove();
+    event.target.closest(".record").remove();
+    workoutsArray.splice(position, 1);
+  }
+
+  //display the no record message
+  if (workoutsArray.length === 0) noRecordElm.classList.remove("hidden");
+};
+
 //Load Map
 navigator.geolocation.getCurrentPosition((position) => {
-  lattitude = position.coords.latitude;
-  longitude = position.coords.longitude;
+  let latitude = position.coords.latitude;
+  let longitude = position.coords.longitude;
 
-  let map = L.map(mapView).setView([lattitude, longitude], 14);
+  map = L.map(mapView).setView([latitude, longitude], 14);
 
   L.tileLayer("https://tile.openstreetmap.org/{z}/{x}/{y}.png", {
     attribution:
@@ -193,10 +232,14 @@ navigator.geolocation.getCurrentPosition((position) => {
 
   //click on map
   map.on("click", function (e) {
-    mapMarker = L.marker(e.latlng)
-      .addTo(map)
-      //.bindPopup("A pretty CSS popup.<br> Easily customizable.");
-      .openPopup();
+    //remove unused markers
+    if (mapMarker) {
+      if (mapMarker.options.icon.options.iconUrl === "marker-icon.png")
+        map.removeLayer(mapMarker);
+    }
+
+    //Place marker on map
+    mapMarker = L.marker(e.latlng).addTo(map);
 
     locationElm.value = `${e.latlng.lat},${e.latlng.lng}`;
     containerWorkoutValueElm.classList.remove("inactive");
@@ -214,6 +257,7 @@ cyclingWorkoutElm.addEventListener("click", function () {
   toggleWorkout("cycling");
 });
 
+//Add a new workout
 newWorkoutElm.addEventListener("submit", function (e) {
   e.preventDefault();
 
@@ -228,16 +272,20 @@ newWorkoutElm.addEventListener("submit", function (e) {
 
 //delete records
 listRecordsElm.addEventListener("click", function (e) {
+  //delete records
   if (e.target.classList.contains("delete-record")) {
-    e.target.closest(".record").remove();
+    deleteRecord(e);
+    return;
   }
 
-  if (listRecordsElm.getElementsByTagName("li").length === 1)
-    noRecordElm.classList.remove("hidden");
+  //move map to marker
+  if (e.target.closest(".record")) moveMaptoMarker(e);
 });
 
 //calculate cadence and pace
-containerWorkoutValueElm.addEventListener("click", function () {
-  paceElm.value = durationElm.value / distanceElm.value;
-  cadenceElm.value = (distanceElm.value / durationElm.value).toFixed(2);
+containerWorkoutValueElm.addEventListener("input", function () {
+  if (distanceElm.value && durationElm.value) {
+    paceElm.value = (durationElm.value / distanceElm.value).toFixed(2);
+    cadenceElm.value = (distanceElm.value / durationElm.value).toFixed(2);
+  }
 });
